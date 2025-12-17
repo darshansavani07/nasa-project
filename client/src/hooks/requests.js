@@ -19,13 +19,13 @@ async function httpGetLaunches() {
 async function httpSubmitLaunch(launch) {
   try {
     return await fetch(`${API_URL}/launches`, {
-      method: "post",
+      method: 'post',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(launch),
     });
-  } catch(err) {
+  } catch (err) {
     return {
       ok: false,
     };
@@ -36,9 +36,9 @@ async function httpSubmitLaunch(launch) {
 async function httpAbortLaunch(id) {
   try {
     return await fetch(`${API_URL}/launches/${id}`, {
-      method: "delete",
+      method: 'delete',
     });
-  } catch(err) {
+  } catch (err) {
     console.log(err);
     return {
       ok: false,
@@ -46,9 +46,4 @@ async function httpAbortLaunch(id) {
   }
 }
 
-export {
-  httpGetPlanets,
-  httpGetLaunches,
-  httpSubmitLaunch,
-  httpAbortLaunch,
-};
+export { httpGetPlanets, httpGetLaunches, httpSubmitLaunch, httpAbortLaunch };
