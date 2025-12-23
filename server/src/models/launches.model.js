@@ -1,11 +1,12 @@
 const launches = new Map();
 
+let latestFlightNumber = 100;
 const launch = {
   flightNumber: 100,
   mission: 'Kepler Exploration X',
   rocket: 'Explorer IS1',
   launchDate: new Date('December 27, 2030'),
-  destination: 'Kepler-442 b',
+  target: 'Kepler-442 b',
   customer: ['ZTM', 'NASA'],
   upcoming: true,
   success: true,
@@ -13,8 +14,12 @@ const launch = {
 
 launches.set(launch.flightNumber, launch);
 
-async function getAllLaunches(skip, limit) {
-  return Array.from(launch.values());
+function existLaunchWithId(launchId) {
+  return launches.has(launchId);
+}
+
+function getAllLaunches(skip, limit) {
+  return Array.from(launches.values());
   //   return await launchesDatabase
   //     .find({}, { _id: 0, __v: 0 })
   //     .sort({ flightNumber: 1 })
@@ -22,6 +27,29 @@ async function getAllLaunches(skip, limit) {
   //     .limit(limit);
 }
 
+async function addNewLaunch(launch) {
+  latestFlightNumber++;
+  launches.set(
+    latestFlightNumber,
+    Object.assign(launch, {
+      success: true,
+      upcoming: true,
+      customer: ['Zero to Mastery', 'NASA'],
+      flightNumber: latestFlightNumber,
+    })
+  );
+}
+
+function abortLaunchById(launchId) {
+  const aborted = launches.get(launchId);
+  aborted.upcoming = false;
+  aborted.success = false;
+  return aborted;
+}
+
 module.exports = {
-    getAllLaunches,
+  existLaunchWithId,
+  getAllLaunches,
+  addNewLaunch,
+  abortLaunchById,
 };
